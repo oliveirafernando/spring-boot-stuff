@@ -17,15 +17,26 @@ public class PersonService {
 	private PersonRepository personRepository;
 
 	public Person update(Long id, Person person) {
+		Person savedPerson = searchById(id);
+		BeanUtils.copyProperties(person, savedPerson, "id");
+		this.personRepository.save(savedPerson);
+
+		return savedPerson;
+	}
+
+	private Person searchById(Long id) {
 		Optional<Person> savedPerson = this.personRepository.findById(id);
 		if (!savedPerson.isPresent()) {
 			throw new EmptyResultDataAccessException(1);
 		}
-		Person realSavedPerson = savedPerson.get();
-		BeanUtils.copyProperties(person, realSavedPerson, "id");
-		this.personRepository.save(realSavedPerson);
+		return savedPerson.get();
+	}
 
-		return realSavedPerson;
+	public void updateActiveProperty(Long id, Boolean isEnabled) {
+		Person person = searchById(id);
+		person.setIsActive(isEnabled);
+		
+		this.personRepository.save(person);	
 	}
 
 }

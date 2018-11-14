@@ -32,8 +32,8 @@ public class MyResponseExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-		String errorMessage = this.messageSource.getMessage("message.invalid_schema", null, LocaleContextHolder.getLocale());
-		String technicalMessage = ex.getCause().getMessage();
+		String errorMessage = this.messageSource.getMessage("message.invalid-schema", null, LocaleContextHolder.getLocale());
+		String technicalMessage = ex.getCause() != null ? ex.getCause().getMessage(): ex.toString();
 		List<Error> errors = Arrays.asList(new Error(errorMessage, technicalMessage));
 
 		return handleExceptionInternal(ex, errors, headers, HttpStatus.BAD_REQUEST, request);

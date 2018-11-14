@@ -76,4 +76,10 @@ public class PersonController {
 		Person updatedPerson = this.personService.update(id, person);
 		return ResponseEntity.ok(updatedPerson);
 	}
+	
+	@PutMapping("/{id}/active")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void updateActiveProperty(@PathVariable Long id, @RequestBody(required = true) Boolean isActive) {
+		this.personService.updateActiveProperty(id, isActive);
+	}
 }
