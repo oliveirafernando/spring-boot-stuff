@@ -63,7 +63,6 @@ public class MyResponseExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({EmptyResultDataAccessException.class})
 //	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex, WebRequest request) {
-		
 		String errorMessage = this.messageSource.getMessage("resource.not-found", null, LocaleContextHolder.getLocale());
 		String technicalMessage = ex.toString();
 		List<Error> errors = Arrays.asList(new Error(errorMessage, technicalMessage));
