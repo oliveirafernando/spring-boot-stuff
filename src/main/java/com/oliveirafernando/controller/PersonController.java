@@ -26,7 +26,7 @@ import com.oliveirafernando.repository.PersonRepository;
 import com.oliveirafernando.service.PersonService;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/people")
 
 public class PersonController {
 

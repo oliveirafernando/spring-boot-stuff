@@ -19,12 +19,10 @@ public class ResourceCreatedListener implements ApplicationListener<ResourceCrea
 		Long id = resouceCreatedEvent.getId();
 
 		this.addHeaderLocation(response, id);
-
 	}
 
 	private void addHeaderLocation(HttpServletResponse response, Long id) {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(id).toUri();
 		response.setHeader("Location", uri.toASCIIString());
 	}
-
 }
