@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,10 +29,12 @@ public class Release {
 	@Setter
 	private Long id;
 	
+	@NotNull
 	@Getter
 	@Setter
 	private String description;
 	
+	@NotNull
 	@Getter
 	@Setter
 	private LocalDate dueDate;
@@ -40,6 +43,7 @@ public class Release {
 	@Setter
 	private LocalDate paymentDate;
 	
+	@NotNull
 	@Getter
 	@Setter
 	private BigDecimal value;
@@ -49,17 +53,20 @@ public class Release {
 	private String note;
 	
 	@Enumerated(value = EnumType.STRING)
+	@NotNull
 	@Getter
 	@Setter
 	private ReleaseTypeEnum type;
 	
 	@ManyToOne
+	@NotNull
 	@Getter
 	@Setter
 	@JoinColumn(name = "category_fk")
 	private Category category;
 	
 	@ManyToOne
+	@NotNull
 	@JoinColumn(name = "person_fk")
 	@Getter
 	@Setter

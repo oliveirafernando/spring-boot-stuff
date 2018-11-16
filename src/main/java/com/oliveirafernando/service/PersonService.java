@@ -24,7 +24,7 @@ public class PersonService {
 		return savedPerson;
 	}
 
-	private Person searchById(Long id) {
+	public Person searchById(Long id) {
 		Optional<Person> savedPerson = this.personRepository.findById(id);
 		if (!savedPerson.isPresent()) {
 			throw new EmptyResultDataAccessException(1);

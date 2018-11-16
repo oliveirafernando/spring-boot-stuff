@@ -8,8 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -42,6 +45,12 @@ public class Person {
 	@Getter
 	@Setter
 	private Boolean isActive;
+	
+	@JsonIgnore
+	@Transient
+	public boolean isInactive() {
+		return !this.isActive;
+	}
 
 	@Override
 	public int hashCode() {
