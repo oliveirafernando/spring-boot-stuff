@@ -83,6 +83,12 @@
 			<artifactId>hibernate-java8</artifactId>
 		</dependency>
 		
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.hibernate</groupId> -->
+<!-- 			<artifactId>hibernate-jpamodelgen</artifactId> -->
+<!-- 			<version>5.0.12.Final</version> -->
+<!-- 		</dependency> -->
+		
 		<!-- Jackson to Java 8 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>

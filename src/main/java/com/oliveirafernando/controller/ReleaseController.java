@@ -25,6 +25,7 @@ import com.oliveirafernando.event.ResourceCreatedEvent;
 import com.oliveirafernando.exceptionhandler.MyResponseExceptionHandler.Error;
 import com.oliveirafernando.model.Release;
 import com.oliveirafernando.repository.ReleaseRepository;
+import com.oliveirafernando.repository.filter.ReleaseFilter;
 import com.oliveirafernando.service.PersonDoesntExistsOrInactiveException;
 import com.oliveirafernando.service.ReleaseService;
 
@@ -46,12 +47,8 @@ public class ReleaseController {
 	private MessageSource messageSource;
 
 	@GetMapping
-	public ResponseEntity<?> listAll() {
-		List<Release> releases = this.releaseRepository.findAll();
-		if (releases.isEmpty()) {
-			return ResponseEntity.noContent().build();
-		}
-		return ResponseEntity.ok(releases);
+	public List<Release> search(ReleaseFilter releaseFilter) {
+		return this.releaseRepository.filter(releaseFilter);
 	}
 
 	@GetMapping("/{id}")
