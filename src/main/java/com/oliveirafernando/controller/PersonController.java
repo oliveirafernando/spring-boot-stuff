@@ -1,7 +1,6 @@
 package com.oliveirafernando.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -57,18 +56,18 @@ public class PersonController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable Long id) {
-		Optional<Person> person = this.personRepository.findById(id);
-		if (!person.isPresent()) {
+		Person person = this.personRepository.findOne(id);
+		if (person == null) {
 			return ResponseEntity.notFound().build();
 		}
 
-		return ResponseEntity.ok(person.get());
+		return ResponseEntity.ok(person);
 	}
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remove(@PathVariable Long id) {
-		personRepository.deleteById(id);
+		personRepository.delete(id);
 	}
 
 	@PutMapping("/{id}")

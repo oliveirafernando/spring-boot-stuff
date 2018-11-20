@@ -2,7 +2,6 @@ package com.oliveirafernando.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -45,11 +44,11 @@ public class CategoryController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Category> findById(@PathVariable Long id) {
-		Optional<Category> category = this.categoryRepository.findById(id);
-		if(!category.isPresent()){
+		Category category = this.categoryRepository.findOne(id);
+		if(category == null){
 			return ResponseEntity.notFound().build();
 		} 
 		
-		return ResponseEntity.ok(category.get());
+		return ResponseEntity.ok(category);
 	}
 }

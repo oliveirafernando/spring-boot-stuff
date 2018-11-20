@@ -2,7 +2,6 @@ package com.oliveirafernando.controller;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -57,12 +56,12 @@ public class ReleaseController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable Long id) {
-		Optional<Release> release = this.releaseRepository.findById(id);
-		if (!release.isPresent()) {
+		Release release = this.releaseRepository.findOne(id);
+		if (release == null) {
 			return ResponseEntity.notFound().build();
 		}
 
-		return ResponseEntity.ok(release.get());
+		return ResponseEntity.ok(release);
 	}
 	
 	@PostMapping
@@ -84,6 +83,6 @@ public class ReleaseController {
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remove(@PathVariable Long id) {
-		this.releaseRepository.deleteById(id);
+		this.releaseRepository.delete(id);
 	}
 }

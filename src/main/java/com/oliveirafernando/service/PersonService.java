@@ -1,7 +1,5 @@
 package com.oliveirafernando.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -25,11 +23,11 @@ public class PersonService {
 	}
 
 	public Person searchById(Long id) {
-		Optional<Person> savedPerson = this.personRepository.findById(id);
-		if (!savedPerson.isPresent()) {
+		Person savedPerson = this.personRepository.findOne(id);
+		if (savedPerson == null) {
 			throw new EmptyResultDataAccessException(1);
 		}
-		return savedPerson.get();
+		return savedPerson;
 	}
 
 	public void updateActiveProperty(Long id, Boolean isEnabled) {

@@ -1,7 +1,5 @@
 package com.oliveirafernando.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +18,8 @@ public class ReleaseService {
 	private ReleaseRepository releaseRepository;
 
 	public Release save(Release release) {
-		Optional<Person> person = personRepository.findById(release.getPerson().getId());
-		if(!person.isPresent() || person.get().isInactive()) {
+		Person person = personRepository.findOne(release.getPerson().getId());
+		if(person == null || person.isInactive()) {
 			throw new PersonDoesntExistsOrInactiveException();
 		}
 		return this.releaseRepository.save(release);
