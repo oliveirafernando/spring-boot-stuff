@@ -39,7 +39,7 @@ INSERT INTO public.permission (id, description) values (nextval('permission_seq'
 INSERT INTO public.permission (id, description) values (nextval('permission_seq'), 'ROLE_SEARCH_PERSON');
 
 INSERT INTO public.permission (id, description) values (nextval('permission_seq'), 'ROLE_CREATE_RELEASE');
-INSERT INTO public.permission (id, description) values (nextval('permission_seq'), 'ROLE_REMOVER_RELEASE');
+INSERT INTO public.permission (id, description) values (nextval('permission_seq'), 'ROLE_REMOVE_RELEASE');
 INSERT INTO public.permission (id, description) values (nextval('permission_seq'), 'ROLE_SEARCH_RELEASE');
 
 -- admin

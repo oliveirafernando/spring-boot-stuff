@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,6 +66,7 @@ public class ReleaseController {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAuthority('ROLE_CREATE_RELEASE') and #oauth2.hasScope('write')")
 	public ResponseEntity<Release> create(@Valid @RequestBody Release release, HttpServletResponse response) {
 		Release createdRelease = this.releaseService.save(release);
 		this.publisher.publishEvent(new ResourceCreatedEvent(this, response, createdRelease.getId()));
@@ -82,6 +84,7 @@ public class ReleaseController {
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('ROLE_REMOVE_RELEASE') and #oauth2.hasScope('write')")
 	public void remove(@PathVariable Long id) {
 		this.releaseRepository.delete(id);
 	}

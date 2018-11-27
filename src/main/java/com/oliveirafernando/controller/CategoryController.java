@@ -46,6 +46,7 @@ public class CategoryController {
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAuthority('ROLE_SEARCH_CATEGORY') and #oauth2.hasScope('read')")
 	public ResponseEntity<Category> findById(@PathVariable Long id) {
 		Category category = this.categoryRepository.findOne(id);
 		if(category == null){
