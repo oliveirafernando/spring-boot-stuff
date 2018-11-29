@@ -30,6 +30,7 @@ import com.oliveirafernando.exceptionhandler.MyResponseExceptionHandler.Error;
 import com.oliveirafernando.model.Release;
 import com.oliveirafernando.repository.ReleaseRepository;
 import com.oliveirafernando.repository.filter.ReleaseFilter;
+import com.oliveirafernando.repository.projection.ReleaseOverview;
 import com.oliveirafernando.service.PersonDoesntExistsOrInactiveException;
 import com.oliveirafernando.service.ReleaseService;
 
@@ -51,8 +52,15 @@ public class ReleaseController {
 	private MessageSource messageSource;
 
 	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_SEARCH_RELEASE') and #oauth2.hasScope('read')")
 	public Page<Release> search(ReleaseFilter releaseFilter, Pageable pageable) {
 		return this.releaseRepository.filter(releaseFilter, pageable);
+	}
+	
+	@GetMapping(params = "overview")
+	@PreAuthorize("hasAuthority('ROLE_SEARCH_RELEASE') and #oauth2.hasScope('read')")
+	public Page<ReleaseOverview> overview(ReleaseFilter releaseFilter, Pageable pageable) {
+		return this.releaseRepository.overview(releaseFilter, pageable);
 	}
 
 	@GetMapping("/{id}")

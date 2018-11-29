@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.oliveirafernando.model.Release;
 import com.oliveirafernando.repository.filter.ReleaseFilter;
+import com.oliveirafernando.repository.projection.ReleaseOverview;
 
 public class ReleaseRepositoryImpl implements ReleaseRepositoryQuery {
 
@@ -39,8 +40,36 @@ public class ReleaseRepositoryImpl implements ReleaseRepositoryQuery {
 		// return query.getResultList();
 		return new PageImpl<>(query.getResultList(), pageable, getLength(releaseFilter));
 	}
+	
+	@Override
+	public Page<ReleaseOverview> overview(ReleaseFilter releaseFilter, Pageable pageable) {
+		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+		CriteriaQuery<ReleaseOverview> criteria = builder.createQuery(ReleaseOverview.class);
+		Root<Release> root = criteria.from(Release.class);
+		
+		criteria.select(
+			builder.construct(ReleaseOverview.class, 
+				root.get("id"), 
+				root.get("description"), 
+				root.get("dueDate"), 
+				root.get("paymentDate"), 
+				root.get("value"), 
+				root.get("type"),
+				root.get("category").get("name"),
+				root.get("person").get("name")
+			)
+		);
+		
+		Predicate[] predicates = createPredicates(releaseFilter, builder, root);
+		criteria.where(predicates);
+		
+		TypedQuery<ReleaseOverview> query = entityManager.createQuery(criteria);
+		addPaginationRestriction(query, pageable);
+		
+		return new PageImpl<>(query.getResultList(), pageable, getLength(releaseFilter));
+	}
 
-	private void addPaginationRestriction(TypedQuery<Release> query, Pageable pageable) {
+	private void addPaginationRestriction(TypedQuery<?> query, Pageable pageable) {
 
 		int currentPage = pageable.getPageNumber();
 		int pageLength = pageable.getPageSize();
@@ -81,5 +110,4 @@ public class ReleaseRepositoryImpl implements ReleaseRepositoryQuery {
 
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
-
 }
