@@ -11,15 +11,19 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import com.oliveirafernando.config.property.AppApiProperty;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter{
 	
-	private String allowedOrigin = "http://localhost:8000"; // TODO: COnfigure to multiple environments
+	@Autowired
+	private AppApiProperty appApiProperty;
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
@@ -28,10 +32,10 @@ public class CorsFilter implements Filter{
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 		
-		response.setHeader("Access-Control-Allow-Origin", this.allowedOrigin);
+		response.setHeader("Access-Control-Allow-Origin", this.appApiProperty.getAllowedOrigin());
         response.setHeader("Access-Control-Allow-Credentials", "true");
 		
-		if("OPTIONS".equals(request.getMethod()) && this.allowedOrigin.equals(request.getHeader("Origin"))) {
+		if("OPTIONS".equals(request.getMethod()) && this.appApiProperty.getAllowedOrigin().equals(request.getHeader("Origin"))) {
 			
 			response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
         	response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept");
