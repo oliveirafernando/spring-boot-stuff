@@ -8,7 +8,6 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,10 +24,11 @@ public class AppUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<com.oliveirafernando.model.User> userOpt = this.userRepository.findByEmail(email);
+		
 		com.oliveirafernando.model.User user = userOpt
 				.orElseThrow(() -> new UsernameNotFoundException("User/Password incorrect"));
 
-		return new User(user.getEmail(), user.getPassword(), getPermissions(user));
+		return new UserSystem(user, getPermissions(user));
 	}
 
 	private Collection<? extends GrantedAuthority> getPermissions(com.oliveirafernando.model.User user) {
